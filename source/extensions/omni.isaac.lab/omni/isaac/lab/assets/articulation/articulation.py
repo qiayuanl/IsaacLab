@@ -897,6 +897,8 @@ class Articulation(RigidObject):
         self._data.soft_joint_pos_limits = torch.zeros(self.num_instances, self.num_joints, 2, device=self.device)
         self._data.soft_joint_vel_limits = torch.zeros(self.num_instances, self.num_joints, device=self.device)
         self._data.gear_ratio = torch.ones(self.num_instances, self.num_joints, device=self.device)
+        self._data.joint_pos_bias = torch.zeros(self.num_instances, self.num_joints, device=self.device)
+
         # -- initialize default buffers
         self._data.default_joint_stiffness = torch.zeros(self.num_instances, self.num_joints, device=self.device)
         self._data.default_joint_damping = torch.zeros(self.num_instances, self.num_joints, device=self.device)
@@ -1073,7 +1075,8 @@ class Articulation(RigidObject):
             # prepare input for actuator model based on cached data
             # TODO : A tensor dict would be nice to do the indexing of all tensors together
             control_action = ArticulationActions(
-                joint_positions=self._data.joint_pos_target[:, actuator.joint_indices],
+                joint_positions=self._data.joint_pos_target[:, actuator.joint_indices]
+                                - self._data.joint_pos_bias[:, actuator.joint_indices],
                 joint_velocities=self._data.joint_vel_target[:, actuator.joint_indices],
                 joint_efforts=self._data.joint_effort_target[:, actuator.joint_indices],
                 joint_indices=actuator.joint_indices,

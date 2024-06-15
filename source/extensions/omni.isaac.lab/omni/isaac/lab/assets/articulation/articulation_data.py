@@ -184,6 +184,9 @@ class ArticulationData(RigidObjectData):
     gear_ratio: torch.Tensor = None
     """Gear ratio for relating motor torques to applied Joint torques. Shape is (num_instances, num_joints)."""
 
+    joint_pos_bias: torch.Tensor = None
+    """Joint Position bias provided to read and write. Shape is (num_instances, num_joints)."""
+
     ##
     # Properties.
     ##
