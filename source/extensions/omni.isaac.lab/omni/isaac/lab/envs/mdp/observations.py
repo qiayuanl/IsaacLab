@@ -37,23 +37,21 @@ def base_pos_z(env: ManagerBasedEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg(
 def base_lin_vel(env: ManagerBasedEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     """Root linear velocity in the asset's root frame."""
     # extract the used quantities (to enable type-hinting)
-    asset: RigidObject = env.scene[asset_cfg.name]
-    return asset.data.root_lin_vel_b
+    asset: Articulation = env.scene[asset_cfg.name]
+    return math_utils.quat_rotate_inverse(asset.data.root_ori_bias, asset.data.root_lin_vel_b)
 
 
 def base_ang_vel(env: ManagerBasedEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     """Root angular velocity in the asset's root frame."""
     # extract the used quantities (to enable type-hinting)
-    asset: RigidObject = env.scene[asset_cfg.name]
-    return asset.data.root_ang_vel_b
-
+    asset: Articulation = env.scene[asset_cfg.name]
+    return math_utils.quat_rotate_inverse(asset.data.root_ori_bias, asset.data.root_ang_vel_b)
 
 def projected_gravity(env: ManagerBasedEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     """Gravity projection on the asset's root frame."""
     # extract the used quantities (to enable type-hinting)
-    asset: RigidObject = env.scene[asset_cfg.name]
-    return asset.data.projected_gravity_b
-
+    asset: Articulation = env.scene[asset_cfg.name]
+    return math_utils.quat_rotate_inverse(asset.data.root_ori_bias, asset.data.projected_gravity_b)
 
 def root_pos_w(env: ManagerBasedEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     """Asset root position in the environment frame."""

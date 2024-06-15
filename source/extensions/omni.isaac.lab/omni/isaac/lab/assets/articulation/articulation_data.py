@@ -187,6 +187,9 @@ class ArticulationData(RigidObjectData):
     joint_pos_bias: torch.Tensor = None
     """Joint Position bias provided to read and write. Shape is (num_instances, num_joints)."""
 
+    root_ori_bias: torch.Tensor = None
+    """Root bias provided to read and write. Shape is (num_instances, 4)."""
+
     ##
     # Properties.
     ##

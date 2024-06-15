@@ -898,6 +898,7 @@ class Articulation(RigidObject):
         self._data.soft_joint_vel_limits = torch.zeros(self.num_instances, self.num_joints, device=self.device)
         self._data.gear_ratio = torch.ones(self.num_instances, self.num_joints, device=self.device)
         self._data.joint_pos_bias = torch.zeros(self.num_instances, self.num_joints, device=self.device)
+        self._data.root_ori_bias = math_utils.default_orientation(self.num_instances, device=self.device)
 
         # -- initialize default buffers
         self._data.default_joint_stiffness = torch.zeros(self.num_instances, self.num_joints, device=self.device)
